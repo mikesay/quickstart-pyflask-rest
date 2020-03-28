@@ -1,0 +1,102 @@
+# Default values for helm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: quickstart-pyflask-rest
+  tag: latest
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  externalPort: 80
+  internalPort: 8889
+
+ingress:
+  enabled: true
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts: []
+    # - host: chart-example.local
+    #  paths: []
+
+  paths:
+    - /pyapi
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+  
+readinessProbe:
+  initialDelaySeconds: 3
+  periodSeconds: 2
+  failureThreshold: 10
+  timeOutSeconds: 30
+
+livenessProbe:
+  initialDelaySeconds: 2
+  periodSeconds: 2
+  failureThreshold: 10
+  timeOutSeconds: 30
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 300m
+    memory: 128Mi
+  requests:
+    cpu: 200m
+    memory: 128Mi
+    
+hpa:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 60
+  
+# The persistence is enabled by default and a default StorageClass
+# is needed in the k8s cluster to provision volumes dynamicly. 
+# Specify another StorageClass in the "storageClass" or set "existingClaim"
+# if you have already existing persistent volumes to use
+persistence:
+  enabled: true
+  # Setting it to "keep" to avoid removing PVCs during a helm delete 
+  # operation. Leaving it empty will delete PVCs after the chart deleted
+  resourcePolicy: ""
+  # Use the existing PVC which must be created manually before bound
+  existingClaim: ""
+  # Specify the "storageClass" used to provision the volume. Or the default
+  # StorageClass will be used(the default).
+  # Set it to "-" to disable dynamic provisioning
+  storageClass: ""
+  accessMode: ReadWriteMany
+  size: 5Gi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
