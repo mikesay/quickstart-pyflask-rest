@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: quickstart-pyflask-rest
+  repository: mikejianzhang/quickstart-python-flask-restful
   tag: latest
   pullPolicy: IfNotPresent
 
