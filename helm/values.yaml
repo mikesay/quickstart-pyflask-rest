@@ -37,13 +37,13 @@ ingress:
   
 readinessProbe:
   initialDelaySeconds: 3
-  periodSeconds: 2
+  periodSeconds: 60
   failureThreshold: 10
   timeOutSeconds: 30
 
 livenessProbe:
   initialDelaySeconds: 2
-  periodSeconds: 2
+  periodSeconds: 60
   failureThreshold: 10
   timeOutSeconds: 30
 
