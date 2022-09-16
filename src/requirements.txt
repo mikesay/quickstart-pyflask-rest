@@ -26,7 +26,7 @@ meld3==1.0.2
 multi-key-dict==2.0.3
 pbr==5.1.2
 python-jenkins==1.4.0
-Mako==1.0.7
+Mako==1.2.2
 python-dateutil==2.8.0
 python-editor==1.0.4
 Flask-Cors==3.0.7
